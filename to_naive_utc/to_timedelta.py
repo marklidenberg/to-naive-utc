@@ -52,7 +52,9 @@ def to_timedelta(
 
     # - Numbers -> seconds (but make sure we don't catch timedelta objects)
 
-    if isinstance(value, numbers.Real) and not isinstance(value, np.timedelta64):
+    if isinstance(value, numbers.Real) and (
+        not HAS_NUMPY or not isinstance(value, np.timedelta64)
+    ):
         return timedelta(
             seconds=float(value),
         )
